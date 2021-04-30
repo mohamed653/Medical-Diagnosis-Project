@@ -26,7 +26,7 @@ namespace Medical_Diagnosis
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddSingleton<MedicalDiagnosisContext>();
+            //services.AddSingleton<MedicalDiagnosisContext>();
 
             services.AddDbContext<MedicalDiagnosisContext>(data => data.UseSqlServer(Configuration.GetConnectionString("MedicalDB")));
         }
