@@ -9241,19 +9241,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Mohamed Hamed\\.nuget\\packages\\": {}
+    "C:\\Users\\Win 7\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Mohamed Hamed\\source\\repos\\mohamed653\\Medical-Diagnosis-Project\\Medical Diagnosis\\Medical Diagnosis.csproj",
+      "projectUniqueName": "C:\\Users\\Win 7\\source\\Medical_System\\Medical Diagnosis\\Medical Diagnosis.csproj",
       "projectName": "Medical Diagnosis",
-      "projectPath": "C:\\Users\\Mohamed Hamed\\source\\repos\\mohamed653\\Medical-Diagnosis-Project\\Medical Diagnosis\\Medical Diagnosis.csproj",
-      "packagesPath": "C:\\Users\\Mohamed Hamed\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Mohamed Hamed\\source\\repos\\mohamed653\\Medical-Diagnosis-Project\\Medical Diagnosis\\obj\\",
+      "projectPath": "C:\\Users\\Win 7\\source\\Medical_System\\Medical Diagnosis\\Medical Diagnosis.csproj",
+      "packagesPath": "C:\\Users\\Win 7\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Win 7\\source\\Medical_System\\Medical Diagnosis\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Mohamed Hamed\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Win 7\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -9265,6 +9265,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -9276,6 +9277,7 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
@@ -9322,7 +9324,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }
