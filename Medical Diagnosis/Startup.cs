@@ -28,7 +28,7 @@ namespace Medical_Diagnosis
             services.AddControllersWithViews();
             //services.AddSingleton<MedicalDiagnosisContext>();
 
-            services.AddDbContext<MedicalDiagnosisContext>(data => data.UseSqlServer(Configuration.GetConnectionString("MedicalDB")));
+            services.AddDbContext<MedicalDBContext>(data => data.UseSqlServer(Configuration.GetConnectionString("MedicalDB")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

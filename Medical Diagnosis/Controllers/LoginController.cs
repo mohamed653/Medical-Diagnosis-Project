@@ -10,23 +10,38 @@ namespace Medical_Diagnosis.Controllers
     public class LoginController : Controller
     {
 
-        private readonly MedicalDiagnosisContext _context;
+        private readonly MedicalDBContext _context;
 
-        public LoginController(MedicalDiagnosisContext context)
+        public LoginController(MedicalDBContext context)
         {
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? message)
         {
+            ViewBag.message = message;
             return View();
         }
 
-        public JsonResult Test()
-        {
-            Patient patient = _context.Patients.FirstOrDefault(p => p.Id == 1);
+       
 
-            return Json(patient);
+        [HttpPost]
+        public RedirectToActionResult Login(TblUser user)
+        {
+
+
+                var checkUser= _context.TblUsers.FirstOrDefault(u => u.Mail == user.Mail && u.Password == user.Password);
+
+                if (checkUser != null)
+                {
+                    return RedirectToAction("Index","Home",checkUser.Mail);
+                }
+
+
+            return RedirectToAction("Index",new { message = "No User" });
+
+
+
         }
     }
 }

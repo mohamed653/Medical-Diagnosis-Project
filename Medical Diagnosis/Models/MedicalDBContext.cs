@@ -1,16 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
 namespace Medical_Diagnosis.Models
 {
-    public partial class MedicalDiagnosisContext : DbContext
+    public partial class MedicalDBContext : DbContext
     {
-        public MedicalDiagnosisContext()
+        public MedicalDBContext()
         {
         }
-        
-        public MedicalDiagnosisContext(DbContextOptions<MedicalDiagnosisContext> options)
+
+        public MedicalDBContext(DbContextOptions<MedicalDBContext> options)
             : base(options)
         {
         }
@@ -35,14 +37,15 @@ namespace Medical_Diagnosis.Models
         public virtual DbSet<Greserve> Greserves { get; set; }
         public virtual DbSet<Patient> Patients { get; set; }
         public virtual DbSet<Reserve> Reserves { get; set; }
+        public virtual DbSet<TblUser> TblUsers { get; set; }
+        public virtual DbSet<TblUserType> TblUserTypes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-6I90SI9; Database = Medical Diagnosis ; Trusted_Connection=True;");
-                optionsBuilder.EnableSensitiveDataLogging(true);
+                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database=MedicalDB;Trusted_Connection=True;");
             }
         }
 
@@ -55,6 +58,12 @@ namespace Medical_Diagnosis.Models
                 entity.HasKey(e => new { e.CdoctorId, e.DresultId });
 
                 entity.ToTable("Candidate");
+
+                entity.HasIndex(e => e.DoctorId, "IX_Candidate_Doctor_ID");
+
+                entity.HasIndex(e => e.DresultId, "IX_Candidate_Dresult_ID");
+
+                entity.HasIndex(e => e.PatientId, "IX_Candidate_Patient_ID");
 
                 entity.Property(e => e.CdoctorId).HasColumnName("Cdoctor_ID");
 
@@ -148,6 +157,8 @@ namespace Medical_Diagnosis.Models
             {
                 entity.ToTable("Diagnosis Result");
 
+                entity.HasIndex(e => e.DoctorId, "IX_Diagnosis Result_Doctor_ID");
+
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.AutoDresult)
@@ -173,6 +184,8 @@ namespace Medical_Diagnosis.Models
             modelBuilder.Entity<DiagnosisTest>(entity =>
             {
                 entity.ToTable("Diagnosis Test");
+
+                entity.HasIndex(e => e.DoctorId, "IX_Diagnosis Test_Doctor_ID");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
@@ -241,6 +254,8 @@ namespace Medical_Diagnosis.Models
 
                 entity.ToTable("Disease_Exist_Dresult");
 
+                entity.HasIndex(e => e.DresultId, "IX_Disease_Exist_Dresult_Dresult_ID");
+
                 entity.Property(e => e.DiseaseId).HasColumnName("Disease_ID");
 
                 entity.Property(e => e.DresultId).HasColumnName("Dresult_ID");
@@ -264,6 +279,8 @@ namespace Medical_Diagnosis.Models
 
                 entity.ToTable("Disease_relate_Dtest");
 
+                entity.HasIndex(e => e.DtestId, "IX_Disease_relate_Dtest_Dtest_ID");
+
                 entity.Property(e => e.DiseaseId).HasColumnName("Disease_ID");
 
                 entity.Property(e => e.DtestId).HasColumnName("Dtest_ID");
@@ -286,6 +303,8 @@ namespace Medical_Diagnosis.Models
                 entity.HasKey(e => new { e.DiseaseId, e.GdtestId });
 
                 entity.ToTable("Disease_relate_GDtest");
+
+                entity.HasIndex(e => e.GdtestId, "IX_Disease_relate_GDtest_GDtest_ID");
 
                 entity.Property(e => e.DiseaseId).HasColumnName("Disease_ID");
 
@@ -327,6 +346,8 @@ namespace Medical_Diagnosis.Models
             {
                 entity.ToTable("Doctor");
 
+                entity.HasIndex(e => e.ClinicId, "IX_Doctor_Clinic_ID");
+
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.ClinicId).HasColumnName("Clinic_ID");
@@ -364,6 +385,8 @@ namespace Medical_Diagnosis.Models
 
                 entity.ToTable("Doctor_CRUD_Cdoctor");
 
+                entity.HasIndex(e => e.CdoctorId, "IX_Doctor_CRUD_Cdoctor_Cdoctor_ID");
+
                 entity.Property(e => e.DoctorId).HasColumnName("Doctor_ID");
 
                 entity.Property(e => e.CdoctorId).HasColumnName("Cdoctor_ID");
@@ -386,6 +409,8 @@ namespace Medical_Diagnosis.Models
                 entity.HasKey(e => new { e.DresultId, e.DtestId });
 
                 entity.ToTable("Dtest_Dresult");
+
+                entity.HasIndex(e => e.DtestId, "IX_Dtest_Dresult_Dtest_ID");
 
                 entity.Property(e => e.DresultId).HasColumnName("Dresult_ID");
 
@@ -412,6 +437,8 @@ namespace Medical_Diagnosis.Models
 
                 entity.ToTable("GDtest_Dresult");
 
+                entity.HasIndex(e => e.GdtestId, "IX_GDtest_Dresult_GDtest_ID");
+
                 entity.Property(e => e.DresultId).HasColumnName("Dresult_ID");
 
                 entity.Property(e => e.GdtestId).HasColumnName("GDtest_ID");
@@ -433,6 +460,8 @@ namespace Medical_Diagnosis.Models
             {
                 entity.ToTable("General Diagnosis Test");
 
+                entity.HasIndex(e => e.DoctorId, "IX_General Diagnosis Test_Doctor_ID");
+
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.DoctorId).HasColumnName("Doctor_ID");
@@ -452,6 +481,10 @@ namespace Medical_Diagnosis.Models
                 entity.HasKey(e => new { e.DresultId, e.SendDate });
 
                 entity.ToTable("Give");
+
+                entity.HasIndex(e => e.DoctorId, "IX_Give_Doctor_ID");
+
+                entity.HasIndex(e => e.PatientId, "IX_Give_Patient_ID");
 
                 entity.Property(e => e.DresultId).HasColumnName("Dresult_ID");
 
@@ -485,6 +518,10 @@ namespace Medical_Diagnosis.Models
                 entity.HasKey(e => new { e.ClinicId, e.ReservationDate, e.RequestDate });
 
                 entity.ToTable("GReserve");
+
+                entity.HasIndex(e => e.GdtestId, "IX_GReserve_GDtest_ID");
+
+                entity.HasIndex(e => e.PatientId, "IX_GReserve_Patient_ID");
 
                 entity.Property(e => e.ClinicId).HasColumnName("Clinic_ID");
 
@@ -553,6 +590,10 @@ namespace Medical_Diagnosis.Models
 
                 entity.ToTable("Reserve");
 
+                entity.HasIndex(e => e.DtestId, "IX_Reserve_Dtest_ID");
+
+                entity.HasIndex(e => e.PatientId, "IX_Reserve_Patient_ID");
+
                 entity.Property(e => e.ClinicId).HasColumnName("Clinic_ID");
 
                 entity.Property(e => e.ReservationDate)
@@ -582,6 +623,42 @@ namespace Medical_Diagnosis.Models
                     .WithMany(p => p.Reserves)
                     .HasForeignKey(d => d.PatientId)
                     .HasConstraintName("FK_Reserve_Patient");
+            });
+
+            modelBuilder.Entity<TblUser>(entity =>
+            {
+                entity.HasKey(e => e.UserId);
+
+                entity.ToTable("tbl_Users");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.Property(e => e.Mail)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.UserTypeId).HasColumnName("UserTypeID");
+
+                entity.HasOne(d => d.UserType)
+                    .WithMany(p => p.TblUsers)
+                    .HasForeignKey(d => d.UserTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tbl_Users_tbl_UserTypes");
+            });
+
+            modelBuilder.Entity<TblUserType>(entity =>
+            {
+                entity.HasKey(e => e.UserTypeId);
+
+                entity.ToTable("tbl_UserTypes");
+
+                entity.Property(e => e.UserTypeId).HasColumnName("UserTypeID");
+
+                entity.Property(e => e.TypeName).HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);
